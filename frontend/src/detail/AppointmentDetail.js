@@ -47,7 +47,7 @@ const AppointmentDetail = () => {
   }
 
   if (error) {
-    return <div style={{ color: 'red' }}>{error}</div>; // Error message
+    return <div className="text-red-500">{error}</div>; // Error message styled with red text
   }
 
   if (!appointment) {
@@ -55,21 +55,39 @@ const AppointmentDetail = () => {
   }
 
   return (
-    <div>
-      <h2>Appointment Details</h2>
-      <p><strong>Patient:</strong> {appointment.patient_detail?.profile?.first_name} {appointment.patient_detail?.profile?.last_name} ({appointment.patient_detail?.username})</p>
-      <p><strong>Doctor:</strong> {appointment.doctor_detail?.profile?.first_name} {appointment.doctor_detail?.profile?.last_name} ({appointment.doctor_detail?.username})</p>
-      <p><strong>Date:</strong> {new Date(appointment.appointment_date).toLocaleString()}</p>
-      <p><strong>Status:</strong> {appointment.status}</p>
-      <p><strong>Reason:</strong> {appointment.reason}</p>
-      {/* Add any additional appointment details you want to show */}
-      
+    <div className="container mx-auto max-w-4xl mt-8 p-6 bg-white shadow-lg rounded-lg border border-gray-200">
+      <h2 className="font-bold text-3xl justify-center text-center mb-8">
+        Appointment <span className="bg-[#f84525] text-white px-2 rounded-md">Details</span>
+      </h2>
+
+      <div className="space-y-4 text-lg">
+        <p><span className="font-semibold">Patient:</span> {appointment.patient_detail?.profile?.first_name} {appointment.patient_detail?.profile?.last_name} ({appointment.patient_detail?.username})</p>
+        <p><span className="font-semibold">Doctor:</span> {appointment.doctor_detail?.profile?.first_name} {appointment.doctor_detail?.profile?.last_name} ({appointment.doctor_detail?.username})</p>
+        <p><span className="font-semibold">Date:</span> {new Date(appointment.appointment_date).toLocaleString()}</p>
+        <p><span className="font-semibold">Status:</span> {appointment.status}</p>
+        <p><span className="font-semibold">Reason:</span> {appointment.reason}</p>
+      </div>
+
       {/* Conditionally render the Edit button if the appointment is not canceled */}
       {appointment.status !== 'canceled' && (
-        <button onClick={() => navigate(`/edit-appointment/${id}`)}>Edit Appointment</button>
+        <div className="mt-8 flex justify-center">
+          <button
+            className="ml-4 inline-flex items-center px-4 py-2 bg-[#f84525] border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#f84525] transition ease-in-out duration-150"
+            onClick={() => navigate(`/edit-appointment/${id}`)}
+          >
+            Edit Appointment
+          </button>
+        </div>
       )}
-      
-      <button onClick={() => navigate('/appointments')}>Back to Appointments</button>
+
+      <div className="mt-8 flex justify-center">
+        <button
+          className="inline-flex items-center px-4 py-2 bg-gray-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition ease-in-out duration-150"
+          onClick={() => navigate('/appointments')}
+        >
+          Back to Appointments
+        </button>
+      </div>
     </div>
   );
 };

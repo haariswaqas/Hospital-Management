@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const UserProfileForm = () => {
   const { authState } = useAuth(); // Access authentication state
+  const navigate = useNavigate();
   const [profile, setProfile] = useState({
     first_name: '',
     middle_name: '',
@@ -73,6 +75,7 @@ const UserProfileForm = () => {
       if (response.ok) {
         // Handle successful update (e.g., show a success message)
         console.log('Profile updated successfully');
+        navigate('/profile')
       } else {
         console.error('Failed to update profile');
       }

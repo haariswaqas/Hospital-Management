@@ -89,39 +89,50 @@ const AppointmentList = () => {
         All <span className="bg-[#f84525] text-white px-2 rounded-md">Appointments</span>
       </h2>
     ) : null}
-  
+
     {/* Sort appointments by 'updated_at' in descending order */}
     <ul className="space-y-4">
       {appointments
         .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at)) // Sorting logic
-        .map((appointment) => (
-          <li key={appointment.id} className="border-b border-gray-300 pb-4 flex justify-between items-center">
-            {/* Link to the AppointmentDetail component */}
-            <a 
-              href={`/appointment/${appointment.id}`} 
-              className={`text-lg font-semibold transition duration-200 ${
-                appointment.status === 'confirmed' ? 'text-green-600' : 
-                appointment.status === 'canceled' ? 'text-red-600' : 
-                'text-gray-600'
-              } hover:text-blue-600`}
-            >
-              {`${appointment.patient_detail?.profile?.first_name} ${appointment.patient_detail?.profile?.last_name} - ${appointment.status} appointment with ${appointment.doctor_detail?.profile?.first_name} ${appointment.doctor_detail?.profile?.last_name} on ${new Date(appointment.appointment_date).toLocaleString()}`}
-            </a>
-  
-            {/* Delete Appointment button, visible only for canceled appointments and admin role */}
-            {authState.user.role === 'admin' && appointment.status === 'canceled' && (
-              <button 
-                onClick={() => deleteAppointment(appointment.id)} 
-                className="ml-4 px-4 py-1 bg-red-600 text-white rounded-md hover:bg-red-700 transition duration-200"
+        .map((appointment) => {
+          let appointmentInfo = '';
+          if (authState.user.role === 'patient') {
+            appointmentInfo = `${appointment.status.toUpperCase()} appointment with Dr. ${appointment.doctor_detail?.profile?.first_name} ${appointment.doctor_detail?.profile?.last_name} on ${new Date(appointment.appointment_date).toLocaleString()}`;
+          } else if (authState.user.role === 'doctor') {
+            appointmentInfo = `${appointment.status.toUpperCase()} appointment with Patient ${appointment.patient_detail?.profile?.first_name} ${appointment.patient_detail?.profile?.last_name} on ${new Date(appointment.appointment_date).toLocaleString()}`;
+          } else if (authState.user.role === 'admin') {
+            appointmentInfo = `${appointment.patient_detail?.profile?.first_name} ${appointment.patient_detail?.profile?.last_name} - ${appointment.status} appointment with Dr. ${appointment.doctor_detail?.profile?.first_name} ${appointment.doctor_detail?.profile?.last_name} on ${new Date(appointment.appointment_date).toLocaleString()}`;
+          }
+
+          return (
+            <li key={appointment.id} className="border-b border-gray-300 pb-4 flex justify-between items-center">
+              {/* Link to the AppointmentDetail component */}
+              <a 
+                href={`/appointment/${appointment.id}`} 
+                className={`text-lg font-semibold transition duration-200 ${
+                  appointment.status === 'confirmed' ? 'text-green-600' : 
+                  appointment.status === 'canceled' ? 'text-red-600' : 
+                  'text-gray-600'
+                } hover:text-blue-600`}
               >
-                Delete
-              </button>
-            )}
-          </li>
-        ))}
+                {appointmentInfo}
+              </a>
+
+              {/* Delete Appointment button, visible only for canceled appointments and admin role */}
+              {authState.user.role === 'admin' && appointment.status === 'canceled' && (
+                <button 
+                  onClick={() => deleteAppointment(appointment.id)} 
+                  className="ml-4 px-4 py-1 bg-red-600 text-white rounded-md hover:bg-red-700 transition duration-200"
+                >
+                  Delete
+                </button>
+              )}
+            </li>
+          );
+        })}
     </ul>
-  </div>
-  
+</div>
+
   );
 };
 

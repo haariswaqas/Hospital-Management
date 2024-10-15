@@ -74,23 +74,78 @@ const DoctorProfilePage = () => {
   if (!doctorProfile) {
     return <div>No profile found.</div>;
   }
+  const handleAppointmentClick = () => {
+    navigate(`/appointments/create/?doctorId=${id}&doctorName=Dr.${doctorProfile.profile.first_name} ${doctorProfile.profile.last_name} (${doctorProfile.profile.specialization})` );
+  };
 
   return (
-    <div>
-      <h2>Doctor Profile</h2>
-      <p><strong>Username:</strong> {doctorProfile.username}</p>
-      <p><strong>Email:</strong> {doctorProfile.email}</p>
-      <p><strong>Role:</strong> {doctorProfile.role}</p>
-      <p><strong>First Name:</strong> {doctorProfile.profile?.first_name}</p>
-      <p><strong>Last Name:</strong> {doctorProfile.profile?.last_name}</p>
-      <p><strong>Phone Number:</strong> {doctorProfile.profile?.phone_number}</p>
-      <p><strong>Specialization:</strong> {doctorProfile.profile?.specialization}</p>
-
-      {/* Only show the delete button if the logged-in user is an admin */}
-      {authState.user.role === 'admin' && (
-        <button onClick={handleDelete}>Delete Doctor Profile</button>
-      )}
+    <div className="container mx-auto max-w-5xl mt-8 p-6 bg-white shadow-lg rounded-lg border border-gray-200">
+    <h2 className="font-bold text-2xl justify-center text-center mb-12">
+                    Doctor <span className="bg-[#f84525] text-white px-2 rounded-md">Profile</span>
+                </h2>
+  
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* Left Column - Basic Details */}
+      <div className="space-y-4">
+     
+        <p>
+        <span className="font-semibold">Full Name: </span>
+        {doctorProfile.profile?.first_name || 'N/A'}{' '}
+        {doctorProfile.profile?.middle_name ? `${doctorProfile.profile?.middle_name} ` : ''} 
+        {doctorProfile.profile?.last_name || 'N/A'}
+      </p>
+      <p>
+        <span className="font-semibold">Gender:</span> {doctorProfile.profile?.gender || 'N/A'}
+      </p>
+      <p>
+        <span className="font-semibold">Age:</span> {doctorProfile.profile?.age || 'N/A'}
+      </p>
+      <p>
+        <span className="font-semibold">Date of Birth:</span> {doctorProfile.profile?.date_of_birth || 'N/A'}
+      </p>
+      </div>
+  
+      {/* Right Column - Contact Info */}
+      <div className="space-y-4">
+        <p>
+          <span className="font-semibold">Email: </span> {doctorProfile.email || 'N/A'}
+        </p>
+        <p>
+          <span className="font-semibold">Phone Number: </span> {doctorProfile.profile?.phone_number || 'N/A'}
+        </p>
+        <p>
+          <span className="font-semibold">Specialization: </span> {doctorProfile.profile?.specialization || 'N/A'}
+        </p>
+        <p>
+          <span className="font-semibold">Consultation Fees: </span> GHc{doctorProfile.profile?.consultation_fees || 'N/A'}
+        </p>
+        <div className="mt-4">
+        <button
+            className="btn btn-primary"
+            onClick={handleAppointmentClick}
+        >
+            Book Appointment
+        </button>
     </div>
+      </div>
+    </div>
+  
+
+ 
+  
+    {/* Delete Button for Admins */}
+    {authState.user.role === 'admin' && (
+      <div className="mt-6 flex justify-center">
+        <button
+          onClick={handleDelete}
+          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+        >
+          Delete Doctor Profile
+        </button>
+      </div>
+    )}
+  </div>
+  
   );
 };
 

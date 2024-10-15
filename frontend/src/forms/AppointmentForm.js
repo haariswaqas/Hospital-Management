@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 
 const AppointmentForm = () => {
   const { authState } = useAuth();
   const navigate = useNavigate();
-  const { id } = useParams(); // Get the appointment ID from the URL params
+  const { id } = useParams(); // Get the appointment ID from the URL 
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const patientId = queryParams.get('patientId');
+  const doctorId = queryParams.get('doctorId'); // Get studentId from query params
+ 
   const [patients, setPatients] = useState([]); // Store patients for admin and doctors
   const [doctors, setDoctors] = useState([]); // Store doctors for admin and patients
   const [appointmentDate, setAppointmentDate] = useState(''); // Store appointment date
@@ -14,6 +19,19 @@ const AppointmentForm = () => {
   const [selectedStatus, setSelectedStatus] = useState('pending'); // Default status
   const [reason, setReason] = useState(''); // Store reason for appointment
   const [error, setError] = useState(null);
+ // Prefill the patient field without making it read-only
+ useEffect(() => {
+  if (patientId) {
+    setSelectedPatient(patientId); // Prefill patient, but it remains editable
+  }
+}, [patientId]);
+
+ // Prefill the patient field without making it read-only
+ useEffect(() => {
+  if (doctorId) {
+    setSelectedDoctor(doctorId); // Prefill patient, but it remains editable
+  }
+}, [doctorId]);
 
   // Helper function to retrieve CSRF token
   function getCookie(name) {

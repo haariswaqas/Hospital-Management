@@ -93,7 +93,7 @@ const DoctorList = () => {
           Object.keys(groupedDoctors).length > 0 ? (
             Object.keys(groupedDoctors).map((specialization) => (
               <div key={specialization}>
-                <h3 className="text-xl font-semibold mt-6">{specialization}</h3>
+                <h3 className="text-xl font-semibold mt-6">{specialization.toUpperCase()} Department</h3>
                 <ul className="space-y-4">
                   {groupedDoctors[specialization].map((doctor) => (
                     <li key={doctor.id} className="border-b border-gray-300 pb-4">
@@ -101,10 +101,10 @@ const DoctorList = () => {
                         to={`/doctor/${doctor.id}`}
                         className="text-lg text-gray-800 hover:text-blue-600 transition duration-200"
                       >
-                        {`${doctor.profile.first_name} ${doctor.profile.last_name}`}
+                        Dr. {`${doctor.profile.first_name} ${doctor.profile.last_name}`}
                       </Link>
                       <p className="text-sm text-gray-600">{doctor.email}</p>
-                      <p className="text-sm text-gray-600">Specialization: {doctor.profile.specialization}</p>
+                      
 
                       {authState.user.role === 'admin' && (
                         <div className="mt-2 space-x-4">

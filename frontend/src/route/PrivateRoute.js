@@ -1,13 +1,15 @@
 import React from 'react';
-import { Outlet, Navigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext'; // Import the useAuth hook
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
-const PrivateRoute = () => {
-  const { authState } = useAuth(); // Get the auth state using the useAuth hook
+const PrivateRoute = ({children}) => {
+  const { authState } = useAuth();
 
-  return(
-    authState.isAuthenticated ? <Outlet/> : <Navigate to ="/login"/>
-  )
-}
+  if (authState.isLoading) {
+    return <div>Loading...</div>; // Adjust based on your preferred loading UI
+  }
+
+  return authState.isAuthenticated ? children : <Navigate to="/login" />;
+};
 
 export default PrivateRoute;

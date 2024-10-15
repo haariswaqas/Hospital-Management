@@ -4,11 +4,12 @@ import {jwtDecode} from 'jwt-decode';
 // Create AuthContext
 const AuthContext = createContext();
 
-//const initialState = {
-  //isAuthenticated: false,
- // user: null,
- // token: null,
-//};
+const initialState = {
+  isAuthenticated: false,
+  user: null,
+  token: null,
+  isLoading: true // Ensure loading is true initially
+};
 
 // Reducer function
 const authReducer = (state, action) => {
@@ -20,7 +21,8 @@ const authReducer = (state, action) => {
         ...state,
         isAuthenticated: true,
         token: action.payload.token,
-        user: decodedToken, // Set user details from the decoded token
+        user: decodedToken,
+        isLoading: false // Set to false after successful login
       };
     case 'LOGOUT':
       localStorage.removeItem('token'); // Remove token from local storage
@@ -28,8 +30,13 @@ const authReducer = (state, action) => {
         ...state,
         isAuthenticated: false,
         token: null,
-        user: null, // Clear the user
+        user: null,
+        isLoading: false // Set to false after logging out
       };
+    case 'SET_LOADING':
+      return { ...state, isLoading: true }; // When rechecking token
+    case 'FINISH_LOADING':
+      return { ...state, isLoading: false }; // Done loading without changing auth state
     default:
       return state;
   }
@@ -37,27 +44,28 @@ const authReducer = (state, action) => {
 
 // AuthProvider component
 const AuthProvider = ({ children }) => {
-  const tokenFromStorage = localStorage.getItem('token');
-  const initialState = tokenFromStorage
-    ? { isAuthenticated: true, token: tokenFromStorage, user: jwtDecode(tokenFromStorage) } // Decode user from token
-    : { isAuthenticated: false, token: null, user: null };
-
   const [authState, dispatch] = useReducer(authReducer, initialState);
 
   useEffect(() => {
-    // Check if token is still valid and manage token expiration if needed
-    if (authState.token) {
+    const tokenFromStorage = localStorage.getItem('token');
+
+    // If token exists, check if it's valid
+    if (tokenFromStorage) {
       try {
-        const decodedToken = jwtDecode(authState.token);
+        const decodedToken = jwtDecode(tokenFromStorage);
         if (decodedToken.exp * 1000 < Date.now()) {
-          dispatch({ type: 'LOGOUT' }); // Log out if token is expired
+          dispatch({ type: 'LOGOUT' }); // Token expired, log out
+        } else {
+          dispatch({ type: 'LOGIN', payload: { token: tokenFromStorage } });
         }
       } catch (error) {
         console.error("Error decoding token: ", error);
-        dispatch({ type: 'LOGOUT' }); // Log out on any decoding error
+        dispatch({ type: 'LOGOUT' }); // Log out on error
       }
+    } else {
+      dispatch({ type: 'FINISH_LOADING' }); // No token, finish loading
     }
-  }, [authState.token]);
+  }, []);
 
   // Define the login function
   const login = async (token) => {
@@ -70,7 +78,7 @@ const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{ authState, login, dispatch }}>
-      {children}
+      {!authState.isLoading && children} {/* Render children only when not loading */}
     </AuthContext.Provider>
   );
 };
