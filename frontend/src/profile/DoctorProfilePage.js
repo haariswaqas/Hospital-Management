@@ -120,12 +120,8 @@ const DoctorProfilePage = () => {
           <span className="font-semibold">Consultation Fees: </span> GHc{doctorProfile.profile?.consultation_fees || 'N/A'}
         </p>
         <div className="mr-10 flex justify">
-  <button
-    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-    onClick={handleAppointmentClick}
-  >
-    Book Appointment
-  </button>
+
+  
 </div>
 
       </div>
@@ -136,13 +132,36 @@ const DoctorProfilePage = () => {
   
     {/* Delete Button for Admins */}
     {authState.user.role === 'admin' && (
-      <div className="mt-6 flex justify-center">
+      <div className="mt-6 flex justify-left">
         <button
           onClick={handleDelete}
-          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 mr-60"
         >
           Delete Doctor Profile
         </button>
+        <div className="mt-6 flex justify-left"> 
+
+
+          
+        </div>
+        <button
+    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-green-600"
+    onClick={handleAppointmentClick}
+  >
+    Book Appointment for Dr. {doctorProfile.profile?.last_name}
+  </button>
+      </div>
+    )}
+      {/* Delete Button for Admins */}
+      {authState.user.role === 'patient' && (
+      <div className="mt-6 flex justify-left">
+       
+        <button
+    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-green-600"
+    onClick={handleAppointmentClick}
+  >
+    Book Appointment
+  </button>
       </div>
     )}
   </div>

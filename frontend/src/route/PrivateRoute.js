@@ -9,7 +9,7 @@ const PrivateRoute = ({children}) => {
     return <div>Loading...</div>; // Adjust based on your preferred loading UI
   }
 
-  return authState.isAuthenticated ? children : <Navigate to="/login" />;
+  return authState.isAuthenticated ? children : <Navigate to="/" />;
 };
 
 export default PrivateRoute;

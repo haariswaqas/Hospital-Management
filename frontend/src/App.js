@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './login/Login';
 import Register from './register/Register';
 import Homepage from './home/Homepage';
-import Dashboard from './dashboard/Dashboard';
 import PatientList from './lists/PatientList';
 import DoctorList from './lists/DoctorList';
 import AppointmentList from './lists/AppointmentList';
@@ -17,6 +16,7 @@ import { AuthProvider } from './context/AuthContext';
 import RestrictedRoute from './route/RestrictedRoute'; 
 import PrivateRoute from './route/PrivateRoute';
 import NavBar from './navbar/NavBar'; 
+
 import './App.css';
 
 const App = () => {
@@ -27,7 +27,7 @@ const App = () => {
                 <NavBar />
                 <Routes>
                     <Route element={<Homepage />} path="/" exact />
-                    <Route element={<Dashboard />} path="/dashboard" exact />
+                    
 
                     {/* Apply RestrictedRoute to login and register pages */}
                     <Route path="/login" element={
@@ -36,7 +36,7 @@ const App = () => {
                         </RestrictedRoute>
                     } exact />
 
-                    <Route path="/register" element={
+                    <Route path="/registration" element={
                         <RestrictedRoute>
                             <Register />
                         </RestrictedRoute>
@@ -109,6 +109,10 @@ const App = () => {
                         </PrivateRoute>
                     } exact />
                 </Routes>
+                
+               
+
+                             
             </Router>
         </AuthProvider>
     );

@@ -33,8 +33,8 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify bg-[#f8f4f3] font-sans text-gray-900">
-  <div className="w-full sm:max-w-md mt-6 px-6 py-16 bg-white shadow-md overflow-hidden sm:rounded-lg">
+    <div className="min-h-screen flex flex-col items-center justify bg-white font-sans text-gray-900">
+  <div className="w-full sm:max-w-md mt-20 px-6 py-16 bg-[#f8f4f3] shadow-md overflow-hidden sm:rounded-lg">
     <form onSubmit={handleSubmit}>
       <div className="flex flex-col items-center mb-4">
         <a href="/">
@@ -87,7 +87,7 @@ const Login = () => {
       <div className="mt-4 text-center">
         <p className="text-sm">
           Don't have an account?{' '}
-          <a href="/register" className="text-[#f84525] hover:underline">
+          <a href="/registration" className="text-[#f84525] hover:underline">
             Sign up here
           </a>
         </p>

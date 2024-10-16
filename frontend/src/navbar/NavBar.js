@@ -12,7 +12,7 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="bg-black-600 shadow-md">
+    <nav className="bg-[#f8f4f3] shadow-md">
       <div className="container mx-auto flex flex-wrap items-center justify-between px-4 py-3">
         {/* Logo and Site Name */}
         <div className="flex items-center">

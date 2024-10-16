@@ -265,7 +265,7 @@ const AppointmentForm = () => {
 
   // Rendering the form...
   return (
-<div className="min-h-screen flex flex-col items-center justify bg-[#f8f4f3] font-sans text-gray-900">
+<div className="min-h-screen flex flex-col items-center justify bg-white font-sans text-gray-900">
     <div className="w-full sm:max-w-4xl mt-6 px-6 py-16 bg-white shadow-md overflow-hidden sm:rounded-lg">
         <div>
             <h2 className="font-bold text-3xl justify-center text-center">

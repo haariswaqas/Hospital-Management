@@ -10,7 +10,7 @@ const Homepage = () => {
 
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#f8f4f3] font-sans text-gray-900">
+    <div className="min-h-screen flex items-center justify-center bg-white font-sans text-gray-900">
   <div className="w-full max-w-7xl h-max px-16 py-6 bg-white shadow-lg rounded-lg text-center">
 
     <h1 className="font-bold text-4xl mb-1">Welcome to HealthHub MD!</h1>

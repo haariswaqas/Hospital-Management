@@ -125,29 +125,44 @@ const PatientProfilePage = () => {
       <p>
         <span className="font-semibold">Medical History:</span> {profile?.medical_history || 'N/A'}
       </p>
-      <div className="mt-4">
-        <button
-            className="btn btn-primary"
-            onClick={handleAppointmentClick}
-        >
-            Schedule Appointment for {profile?.first_name} {profile?.last_name}
-        </button>
-    </div>
+     
     </div>
   </div>
 
   {/* Delete Button for Admins */}
-  {authState.user.role === 'admin' && (
-    <div className="mt-6 flex justify-center">
-      <button
-        onClick={handleDelete}
-        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-      >
-        Delete Patient Profile
-      </button>
-    </div>
-  )}
+    {/* Delete Button for Admins */}
+    {authState.user.role === 'admin' && (
+      <div className="mt-6 flex justify-left">
+        <button
+          onClick={handleDelete}
+          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 mr-60"
+        >
+          Delete Patient Profile
+        </button>
+      
+        <button
+    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-green-600"
+    onClick={handleAppointmentClick}
+  >
+    Schedule Appointment for {profile?.first_name}
+  </button>
+      </div>
+    )}
+  {authState.user.role === 'doctor' && (
+    <div className="mr-20 mt-5">
+ <button
+     className="bg-red-500 text-white px-3 py-2 rounded hover:bg-green-600"
+     onClick={handleAppointmentClick}
+   >
+     Schedule Appointment for {profile?.first_name}
+   </button>
+      </div>
+    
+      
+    )}
+  
 </div>
+
 
 
 
