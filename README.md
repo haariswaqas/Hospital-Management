@@ -73,7 +73,7 @@ The `serializers.py` file is a critical component of the Django REST framework, 
 ---
 
 
-### Views (views.py)
+### Class-Based Views (views.py)
 
 #### Token, Registration, and Profile Management
 
