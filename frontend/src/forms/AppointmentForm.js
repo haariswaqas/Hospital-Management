@@ -267,13 +267,12 @@ const AppointmentForm = () => {
   return (
 <div className="min-h-screen flex flex-col items-center justify bg-[#f8f4f3] font-sans text-gray-900">
     <div className="w-full sm:max-w-4xl mt-6 px-6 py-16 bg-white shadow-md overflow-hidden sm:rounded-lg">
-      <div>
-      <h2 className="font-bold text-3xl justify-center text-center">
-                    Schedule <span className="bg-[#f84525] text-white px-2 rounded-md">Appointment</span>
-                </h2>
-      </div>
-      <br></br>
-   
+        <div>
+            <h2 className="font-bold text-3xl justify-center text-center">
+                Schedule <span className="bg-[#f84525] text-white px-2 rounded-md">Appointment</span>
+            </h2>
+        </div>
+        <br />
         {error && <div className="text-red-500 mb-4">{error}</div>}
         <form onSubmit={createOrUpdateAppointment}>
             {(authState.user.role === 'admin' || authState.user.role === 'patient') && (
@@ -283,6 +282,7 @@ const AppointmentForm = () => {
                         value={selectedDoctor}
                         onChange={(e) => setSelectedDoctor(e.target.value)}
                         required
+                        disabled={id && authState.user.role === 'admin'}
                         className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#f84525] focus:outline-none focus:ring-2 focus:ring-[#f84525] focus:border-transparent mt-1"
                     >
                         <option value="">Select a doctor</option>
@@ -301,6 +301,7 @@ const AppointmentForm = () => {
                         value={selectedPatient}
                         onChange={(e) => setSelectedPatient(e.target.value)}
                         required
+                        disabled={id && authState.user.role === 'admin'}
                         className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#f84525] focus:outline-none focus:ring-2 focus:ring-[#f84525] focus:border-transparent mt-1"
                     >
                         <option value="">Select a patient</option>
@@ -319,70 +320,83 @@ const AppointmentForm = () => {
                     value={appointmentDate}
                     onChange={(e) => setAppointmentDate(e.target.value)}
                     required
+                    
                     className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#f84525] focus:outline-none focus:ring-2 focus:ring-[#f84525] focus:border-transparent mt-1"
                 />
             </div>
             <div className="mt-4">
-                <label className="block text-sm font-medium text-gray-700">Status:</label>
-                <select
-                    value={selectedStatus}
-                    onChange={(e) => setSelectedStatus(e.target.value)}
-                    disabled
-                    className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#f84525] focus:outline-none focus:ring-2 focus:ring-[#f84525] focus:border-transparent mt-1"
-                >
-                    <option value="pending">Pending</option>
-                    <option value="confirmed">Confirmed</option>
-                    <option value="canceled">Canceled</option>
-                </select>
+               
+                <div className="mt-4">
+    <label className="block text-sm font-medium text-gray-700">Status:</label>
+    <select
+        value={authState.user.role === 'doctor' ? 'confirmed' : selectedStatus}
+        onChange={(e) => setSelectedStatus(e.target.value)}
+        disabled={id && authState.user.role === 'doctor' || authState.user.role === 'patient'}
+        className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#f84525] focus:outline-none focus:ring-2 focus:ring-[#f84525] focus:border-transparent mt-1"
+    >
+        <option value="pending">Pending</option>
+        <option value="confirmed">Confirmed</option>
+        <option value="canceled">Canceled</option>
+    </select>
+</div>
+
             </div>
             <div className="mt-4">
-            <label className="block text-sm font-medium text-gray-700">Reason:</label>
+                <label className="block text-sm font-medium text-gray-700">Reason:</label>
                 <textarea
                     value={reason}
                     onChange={(e) => setReason(e.target.value)}
                     required
+                    disabled={id && authState.user.role === 'doctor'}
                     className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#f84525] focus:outline-none focus:ring-2 focus:ring-[#f84525] focus:border-transparent mt-1"
-                    placeholder='Reason for appointment...'
+                    placeholder="Reason for appointment..."
                 />
             </div>
             <div className="flex items-center justify-end mt-6">
-    <button
-        type="submit"
-        className="ml-4 inline-flex items-center px-4 py-2 bg-[#f84525] border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#f84525] transition ease-in-out duration-150"
-    >
-        {id ? 'Update Appointment' : 'Book Appointment'}
-    </button>
-
-    {id && (
-        <>
             <button
-                type="button"
-                onClick={cancelAppointment}
-                className="ml-4 inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#f84525] transition ease-in-out duration-150"
-            >
-                Cancel Appointment
-            </button>
+    type="submit"
+    className="ml-4 inline-flex items-center px-4 py-2 bg-[#f84525] border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#f84525] transition ease-in-out duration-150"
+>
+    {id
+        ? authState.user.role === 'doctor'
+            ? 'Reschedule Appointment'
+            : 'Update Appointment'
+        : authState.user.role === 'doctor'
+        ? 'Book & Confirm Appointment'
+        : 'Book Appointment'}
+</button>
 
-            {authState.user.role !== 'patient' && (
-                <button
-                    type="button"
-                    onClick={confirmAppointment}
-                    disabled={selectedStatus === 'confirmed'} // Disable when confirmed
-                    className={`ml-4 inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest transition ease-in-out duration-150 ${
-                        selectedStatus === 'confirmed'
-                            ? 'bg-gray-400 cursor-not-allowed'
-                            : 'bg-green-600 hover:bg-green-800 focus:ring-[#f84525]'
-                    }`}
-                >
-                    Confirm Appointment
-                </button>
-            )}
-        </>
-    )}
-</div>
+
+                {id && (
+                    <>
+                        <button
+                            type="button"
+                            onClick={cancelAppointment}
+                            className="ml-4 inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#f84525] transition ease-in-out duration-150"
+                        >
+                            Cancel Appointment
+                        </button>
+                        {authState.user.role !== 'patient' && (
+                            <button
+                                type="button"
+                                onClick={confirmAppointment}
+                                disabled={selectedStatus === 'confirmed'}
+                                className={`ml-4 inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest transition ease-in-out duration-150 ${
+                                    selectedStatus === 'confirmed'
+                                        ? 'bg-gray-400 cursor-not-allowed'
+                                        : 'bg-green-600 hover:bg-green-800 focus:ring-[#f84525]'
+                                }`}
+                            >
+                                Confirm Appointment
+                            </button>
+                        )}
+                    </>
+                )}
+            </div>
         </form>
     </div>
 </div>
+
 
   );
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import Dashboard from '../dashboard/Dashboard';
+import AppointmentList from '../lists/AppointmentList';
 
 const Homepage = () => {
   const { authState } = useAuth();
@@ -11,23 +11,16 @@ const Homepage = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#f8f4f3] font-sans text-gray-900">
-  <div className="w-full max-w-7xl h-[90vh] px-16 py-6 bg-white shadow-lg rounded-lg text-center">
+  <div className="w-full max-w-7xl h-max px-16 py-6 bg-white shadow-lg rounded-lg text-center">
 
-    <h1 className="font-bold text-4xl mb-6">Welcome to HealthHub MD!</h1>
-    <p className="text-lg mb-4">
-  We prioritize your health by offering an intuitive interface that makes it easy for you to keep track of all your medical appointments and consultations.
-</p>
-<p className="text-lg mb-6">
-  Doctors can view their patients’ history, update treatment plans, and manage schedules efficiently, all within one platform.
-</p>
-<p className="text-lg mb-4">
-  Our system empowers patients to stay proactive with their health through seamless communication with healthcare providers, ensuring prompt responses and efficient care.
-</p>
-<p className="text-lg mb-6">
-  Experience healthcare like never before—our integrated platform bridges the gap between patients and healthcare professionals with simplicity and transparency.
-</p>
-
-
+    <h1 className="font-bold text-4xl mb-1">Welcome to HealthHub MD!</h1>
+      {/* AppointmentList in its own styled container */}
+      
+          <div className="bg-white p-8 rounded-lg ">
+          
+            <AppointmentList />
+          </div>
+        
     {!authState.isAuthenticated ? (
       <div className="flex justify-center space-x-6 mt-60">
         <button
@@ -48,7 +41,7 @@ const Homepage = () => {
         <h2 className="text-2xl mb-4"> User <strong>{authState.user?.username?.toUpperCase()}</strong> logged in as: <strong>{authState.user?.role?.toUpperCase()}</strong> </h2>
        
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
-       
+    
           <button
             onClick={() => navigate('/profile')}
             className="px-6 py-3 bg-white text-[#f84525] border-2 border-[#f84525] font-semibold uppercase rounded-md hover:bg-gray-100 transition ease-in-out duration-150"
@@ -66,7 +59,7 @@ const Homepage = () => {
               onClick={() => navigate('/appointments')}
               className="px-6 py-3 bg-white text-[#f84525] border-2 border-[#f84525] font-semibold uppercase rounded-md hover:bg-gray-100 transition ease-in-out duration-150"
             >
-              View All Appointments
+              Manage Appointments
             </button>
           )}
           {(authState.user.role === 'patient' || authState.user.role === 'doctor') && (
@@ -85,7 +78,6 @@ const Homepage = () => {
               View All Patients
             </button>
           )}
-             
           {(authState.user.role === 'patient' || authState.user.role === 'admin') && (
             <button
               onClick={() => navigate('/doctors')}
@@ -95,10 +87,13 @@ const Homepage = () => {
             </button>
           )}
         </div>
+
+      
       </div>
     )}
   </div>
 </div>
+
 
   );
 };

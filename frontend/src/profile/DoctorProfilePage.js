@@ -119,14 +119,15 @@ const DoctorProfilePage = () => {
         <p>
           <span className="font-semibold">Consultation Fees: </span> GHc{doctorProfile.profile?.consultation_fees || 'N/A'}
         </p>
-        <div className="mt-4">
-        <button
-            className="btn btn-primary"
-            onClick={handleAppointmentClick}
-        >
-            Book Appointment
-        </button>
-    </div>
+        <div className="mr-10 flex justify">
+  <button
+    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+    onClick={handleAppointmentClick}
+  >
+    Book Appointment
+  </button>
+</div>
+
       </div>
     </div>
   

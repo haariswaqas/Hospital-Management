@@ -79,14 +79,14 @@ const AppointmentList = () => {
   }
 
   return (
-    <div className="container mx-auto max-w-4xl mt-8 p-6 bg-white shadow-lg rounded-lg border border-gray-200">
+    <div className="container mx-auto max-w-4xl mt-8 p-6 bg-opacity-95 shadow-lg rounded-lg border border-gray-200">
     {authState.user.role === 'patient' || authState.user.role === 'doctor' ? (
-      <h2 className="font-bold text-3xl justify-center text-center mb-4">
+      <h2 className="font-bold text-3xl justify-center text-center mb-7">
         My <span className="bg-[#f84525] text-white px-2 rounded-md">Appointments</span>
       </h2>
     ) : authState.user.role === 'admin' ? (
-      <h2 className="font-bold text-3xl justify-center text-center mb-4">
-        All <span className="bg-[#f84525] text-white px-2 rounded-md">Appointments</span>
+      <h2 className="font-bold text-3xl justify-center text-center mb-7">
+        Manage <span className="bg-[#f84525] text-white px-2 rounded-md">Appointments</span>
       </h2>
     ) : null}
 
@@ -117,8 +117,23 @@ const AppointmentList = () => {
               >
                 {appointmentInfo}
               </a>
-
-              {/* Delete Appointment button, visible only for canceled appointments and admin role */}
+{authState.user.role === 'doctor' && appointment.status === 'pending' && (
+   <button
+   onClick={() => navigate(`/edit-appointment/${appointment.id}`)}
+   className="ml-4 px-4 py-1 bg-blue-600 text-white rounded-md hover:bg-red-700 transition duration-200"
+ >
+   Confirm/Cancel
+ </button>
+)}
+{(authState.user.role === 'admin' || authState.user.role === 'patient') && appointment.status === 'pending' && (
+  <button
+    onClick={() => navigate(`/edit-appointment/${appointment.id}`)}
+    className="ml-4 px-4 py-1 bg-blue-600 text-white rounded-md hover:bg-red-700 transition duration-200"
+  >
+    Edit
+  </button>
+)}
+     {/* Delete Appointment button, visible only for canceled appointments and admin role */}
               {authState.user.role === 'admin' && appointment.status === 'canceled' && (
                 <button 
                   onClick={() => deleteAppointment(appointment.id)} 

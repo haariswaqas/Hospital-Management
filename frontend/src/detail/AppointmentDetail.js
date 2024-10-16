@@ -64,7 +64,7 @@ const AppointmentDetail = () => {
         <p><span className="font-semibold">Patient:</span> {appointment.patient_detail?.profile?.first_name} {appointment.patient_detail?.profile?.last_name} ({appointment.patient_detail?.username})</p>
         <p><span className="font-semibold">Doctor:</span> {appointment.doctor_detail?.profile?.first_name} {appointment.doctor_detail?.profile?.last_name} ({appointment.doctor_detail?.username})</p>
         <p><span className="font-semibold">Date:</span> {new Date(appointment.appointment_date).toLocaleString()}</p>
-        <p><span className="font-semibold">Status:</span> {appointment.status}</p>
+        <p><span className="font-semibold">Status:</span> {appointment.status.toUpperCase()}</p>
         <p><span className="font-semibold">Reason:</span> {appointment.reason}</p>
       </div>
 
