@@ -329,15 +329,29 @@ const AppointmentForm = () => {
                 <div className="mt-4">
     <label className="block text-sm font-medium text-gray-700">Status:</label>
     <select
-        value={authState.user.role === 'doctor' ? 'confirmed' : selectedStatus}
-        onChange={(e) => setSelectedStatus(e.target.value)}
-        disabled={id && authState.user.role === 'doctor' || authState.user.role === 'patient'}
-        className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#f84525] focus:outline-none focus:ring-2 focus:ring-[#f84525] focus:border-transparent mt-1"
-    >
-        <option value="pending">Pending</option>
-        <option value="confirmed">Confirmed</option>
-        <option value="canceled">Canceled</option>
-    </select>
+    value={selectedStatus}
+    onChange={(e) => setSelectedStatus(e.target.value)}
+    disabled={authState.user.role === 'patient'}
+    className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#f84525] focus:outline-none focus:ring-2 focus:ring-[#f84525] focus:border-transparent mt-1"
+>
+    {id || authState.user.role === 'doctor' ? (
+      <>
+      <option value="confirmed">Confirmed</option>
+      
+      
+      
+      </>
+        
+        
+    ) : (
+        <>
+            <option value="pending">Pending</option>
+            <option value="confirmed">Confirmed</option>
+            
+        </>
+    )}
+</select>
+
 </div>
 
             </div>
@@ -361,9 +375,9 @@ const AppointmentForm = () => {
         ? authState.user.role === 'doctor'
             ? 'Reschedule Appointment'
             : 'Update Appointment'
-        : authState.user.role === 'doctor'
-        ? 'Book & Confirm Appointment'
-        : 'Book Appointment'}
+        :
+        
+         'Book Appointment'}
 </button>
 
 
