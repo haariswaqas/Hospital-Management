@@ -1,0 +1,26 @@
+BACKEND PACKAGES
+
+djangorestframework – A powerful toolkit for building Web APIs in Django, providing a flexible framework for serialization, request handling, and response formatting.
+
+django-cors-headers – Middleware for handling Cross-Origin Resource Sharing (CORS), allowing your Django application to accept requests from different domains, which is essential for integrating a React frontend with a Django backend.
+
+djangorestframework-simplejwt – A JSON Web Token (JWT) authentication package for Django Rest Framework, offering secure token-based authentication mechanisms for your API.
+
+
+
+
+
+
+
+
+REACT PACKAGES
+
+react – The core library for building user interfaces, using a component-based architecture.
+
+react-dom – Provides DOM-specific methods to help React interact with the web browser's Document Object Model (DOM).
+
+react-scripts – A set of scripts and configurations that simplify the development and building process for React applications using Create React App.
+
+react-router-dom (v6) – A popular routing library for React, used for managing navigation and URLs, enabling a smooth client-side navigation experience in single-page applications.
+
+tailwindcss – A utility-first CSS framework that allows you to design directly in your HTML, making it easy to create responsive and modern UIs with pre-built utility classes.
