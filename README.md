@@ -51,6 +51,28 @@ The Hospital Management System meets the distinctiveness and complexity requirem
 
 ---
 
+### Serializers (serializers.py)
+
+The `serializers.py` file is a critical component of the Django REST framework, responsible for transforming complex data types, such as model instances, into native Python data types that can then be easily rendered into JSON or XML for API responses. It also handles the validation of incoming data.
+
+1. **UserSerializer**: This serializer is used to manage the serialization and deserialization of `User` instances. It includes fields such as username, email, and role, ensuring that the user data is correctly formatted for API consumption.
+   - **Key Features**:
+     - Includes custom validation for unique usernames and emails.
+     - Supports the creation of new users by handling the password hashing process.
+
+2. **ProfileSerializer**: This serializer is tailored to manage the `Profile` model. It includes fields relevant to both patients and doctors, such as medical history, specialization, and consultation fees.
+   - **Key Features**:
+     - Implements conditional validation based on user role (e.g., different required fields for patients and doctors).
+     - Facilitates easy updates to user profiles while ensuring data integrity.
+
+3. **AppointmentSerializer**: This serializer manages the serialization of appointment data, linking patients and doctors while validating appointment details such as date and status.
+   - **Key Features**:
+     - Ensures that appointments do not overlap by validating date and time.
+     - Automatically populates related user fields (patient and doctor) based on the appointment data.
+
+---
+
+
 ### Views (views.py)
 
 #### Token, Registration, and Profile Management
